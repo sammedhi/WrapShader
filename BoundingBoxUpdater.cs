@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[ExecuteAlways]
 public class BoundingBoxUpdater : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -12,7 +13,7 @@ public class BoundingBoxUpdater : MonoBehaviour
         if (renderer == null)
             return;
 
-        var mat = renderer.material;
+        var mat = renderer.sharedMaterial;
         if (mat == null)
             return;
 
