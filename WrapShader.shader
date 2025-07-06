@@ -11,7 +11,7 @@ Shader "Unlit/WrapShader"
     SubShader
     {
         Tags { "RenderType"="Opaque" }
-        LOD 100
+        LOD 100                 
 
         Pass
         {
@@ -61,7 +61,7 @@ Shader "Unlit/WrapShader"
                 float4 newWorldVertex = float4(circularCoord.x,worldSpaceVertex.y, circularCoord.y, 1);
                 o.vertex = mul(UNITY_MATRIX_VP, newWorldVertex);
                 
-                //o.vertex = UnityObjectToClipPos(v.vertex);
+                o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
