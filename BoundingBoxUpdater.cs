@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Updates the bounding box of the renderer to a large size
+/// </summary>
 [ExecuteAlways, RequireComponent(typeof(Renderer))]
 public class BoundingBoxUpdater : MonoBehaviour
 {
@@ -11,6 +14,6 @@ public class BoundingBoxUpdater : MonoBehaviour
         if (mat == null || mat.shader.name != "Unlit/CylinderWrapperShader")
             return;
 
-        renderer.bounds = new Bounds(Vector3.zero, Vector3.one * 1000);
+        renderer.bounds = new Bounds(Vector3.zero, Vector3.one * float.MaxValue);
     }
 }
