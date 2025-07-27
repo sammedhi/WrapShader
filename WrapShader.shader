@@ -1,5 +1,3 @@
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
 Shader "Unlit/WrapShader"
 {
     Properties
@@ -11,18 +9,18 @@ Shader "Unlit/WrapShader"
     SubShader
     {
         Tags { "RenderType"="Opaque" }
-        LOD 100                 
+        LOD 100
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             // make fog work
             #pragma multi_compile_fog
 
             #include "UnityCG.cginc"
-            #define PI 3.14159265359
+            #include "WrapShader.hlsl"
 
             struct appdata
             {
@@ -41,27 +39,22 @@ Shader "Unlit/WrapShader"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-            float _GameWidth;
+            float _GameWidth, _EffectStatus;
             float4 _Tint;
 
             v2f vert (appdata v)
             {
                 v2f o;
 
-                UNITY_SETUP_INSTANCE_ID(v); //Insert
-                UNITY_INITIALIZE_OUTPUT(v2f, o); //Insert
-                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o); //Insert
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_INITIALIZE_OUTPUT(v2f, o);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-                o.vertex = UnityObjectToClipPos(v.vertex);
                 float4 worldSpaceVertex = mul(unity_ObjectToWorld, v.vertex);
-                float percent = worldSpaceVertex.x / (_GameWidth / 2);
-                float angle = percent * PI ;
-                float radius = worldSpaceVertex.z;
-                float2 circularCoord = float2(sin(angle), cos(angle)) * radius;
-                float4 newWorldVertex = float4(circularCoord.x,worldSpaceVertex.y, circularCoord.y, 1);
-                o.vertex = mul(UNITY_MATRIX_VP, newWorldVertex);
-                
-                o.vertex = UnityObjectToClipPos(v.vertex);
+                float4 cylinderVertex = WorldToCylinder(worldSpaceVertex, worldSpaceVertex.z, _GameWidth);
+                float4 outputWorldVertex = cylinderVertex * _EffectStatus + worldSpaceVertex * (1 - _EffectStatus);
+                o.vertex = mul(UNITY_MATRIX_VP, outputWorldVertex);
+
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
@@ -69,13 +62,11 @@ Shader "Unlit/WrapShader"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv) * _Tint;
-                // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }
