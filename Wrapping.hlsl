@@ -19,9 +19,9 @@ float4 WorldToCylinder(float4 worldPoint, float cylinderRadius, float gameWidth)
 /*
 *   Compute the projection of the world space into the sphere space of radius sphereRadius
 *   @params worldPoint Position of the point in the world space
-*   @params cylinderRadius Radius of the cylinder space we project to
-*   @params gameWidth Width of the 2D game window we project from
-*   @return The projected point in the cylinder space
+*   @params sphereRadius Radius of the sphere space we project to
+*   @params gameSize Size of the 2D game window we project from
+*   @return The projected point in the sphere space
 */
 float4 WorldToSphere(float4 worldPoint, float sphereRadius, float2 gameSize)
 {
