@@ -11,9 +11,9 @@ public class BoundingBoxUpdater : MonoBehaviour
         var renderer = GetComponent<Renderer>();
 
         var mat = renderer.sharedMaterial;
-        if (mat == null || mat.shader.name != "Unlit/CylinderWrapperShader")
+        if (mat == null || !mat.shader.name.Contains("Wrap"))
             return;
 
-        renderer.bounds = new Bounds(Vector3.zero, Vector3.one * float.MaxValue);
+        renderer.bounds = new Bounds(Vector3.zero, Vector3.one * 1000);
     }
 }
