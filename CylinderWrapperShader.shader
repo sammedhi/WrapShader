@@ -1,4 +1,4 @@
-Shader "Unlit/WrapShader"
+Shader "Unlit/CylinderWrapperShader"
 {
     Properties
     {
@@ -20,7 +20,7 @@ Shader "Unlit/WrapShader"
             #pragma multi_compile_fog
 
             #include "UnityCG.cginc"
-            #include "WrapShader.hlsl"
+            #include "Wrapping.hlsl"
 
             struct appdata
             {
