@@ -1,4 +1,3 @@
 # World wrapper
 
-World wrapper is a unity shader with some utility that provide a way to wrap every in a circle around the player (Coord : 0, 0, 0)
-
+World wrapper is a collection of Unity shaders that allow to project a 2D world onto a 3D volume, either a cylinder, a sphere or a cube.
