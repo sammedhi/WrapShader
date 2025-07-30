@@ -1,19 +1,22 @@
 using UnityEngine;
 
-/// <summary>
-/// Updates the bounding box of the renderer to a large size
-/// </summary>
-[ExecuteAlways, RequireComponent(typeof(Renderer))]
-public class BoundingBoxUpdater : MonoBehaviour
+namespace WrapShader
 {
-    void Awake()
+    /// <summary>
+    /// Updates the bounding box of the renderer to a large size
+    /// </summary>
+    [ExecuteAlways, RequireComponent(typeof(Renderer))]
+    public class BoundingBoxUpdater : MonoBehaviour
     {
-        var renderer = GetComponent<Renderer>();
+        void Awake()
+        {
+            var renderer = GetComponent<Renderer>();
 
-        var mat = renderer.sharedMaterial;
-        if (mat == null || !mat.shader.name.Contains("Wrap"))
-            return;
+            var mat = renderer.sharedMaterial;
+            if (mat == null || !mat.shader.name.Contains("Wrap"))
+                return;
 
-        renderer.bounds = new Bounds(Vector3.zero, Vector3.one * 1000);
+            renderer.bounds = new Bounds(Vector3.zero, Vector3.one * 1000);
+        }
     }
 }
