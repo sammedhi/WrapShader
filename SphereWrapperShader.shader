@@ -39,7 +39,7 @@ Shader "Unlit/SphereWrapperShader"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-            float _EffectStatus;
+            float _DisableWrapping;
             float2 _GameSize;
             float4 _Tint;
 
@@ -53,7 +53,7 @@ Shader "Unlit/SphereWrapperShader"
 
                 float4 worldSpaceVertex = mul(unity_ObjectToWorld, v.vertex);
                 float4 cylinderVertex = WorldToSphere(worldSpaceVertex, worldSpaceVertex.z, _GameSize);
-                float4 outputWorldVertex = cylinderVertex * _EffectStatus + worldSpaceVertex * (1 - _EffectStatus);
+                float4 outputWorldVertex = cylinderVertex * (1 - _DisableWrapping) + worldSpaceVertex * _DisableWrapping;
                 o.vertex = mul(UNITY_MATRIX_VP, outputWorldVertex);
 
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);

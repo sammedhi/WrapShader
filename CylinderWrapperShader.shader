@@ -39,7 +39,7 @@ Shader "Unlit/CylinderWrapperShader"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-            float _GameWidth, _EffectStatus;
+            float _GameWidth, _DisableWrapping;
             float4 _Tint;
 
             v2f vert (appdata v)
@@ -52,7 +52,7 @@ Shader "Unlit/CylinderWrapperShader"
 
                 float4 worldSpaceVertex = mul(unity_ObjectToWorld, v.vertex);
                 float4 cylinderVertex = WorldToCylinder(worldSpaceVertex, worldSpaceVertex.z, _GameWidth);
-                float4 outputWorldVertex = cylinderVertex * _EffectStatus + worldSpaceVertex * (1 - _EffectStatus);
+                float4 outputWorldVertex = cylinderVertex * (1 - _DisableWrapping) + worldSpaceVertex * _DisableWrapping;
                 o.vertex = mul(UNITY_MATRIX_VP, outputWorldVertex);
 
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
